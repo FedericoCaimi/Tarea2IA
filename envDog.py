@@ -34,6 +34,25 @@ class EnvDog(gym.Env):
         T_R[('aptrapado','festejar','fin_robo')] = (1,20)
         return T_R
 
+    def end(self):
+        if (self.current_state == 'fin_robo'):
+            return True
+        else:
+            return False
+
+    def posibleActions(self):
+        actionsReturn = []
+        for action in self.actions:
+            for stateAux in self.states:
+                val = self.T_R.get((self.current_state,action,stateAux))
+                if( not(val == None)):
+                    if(not (action in actionsReturn)):
+                        actionsReturn.append(action)
+        print(actionsReturn)
+        return actionsReturn
+
+
+
     def step(self, action):
         next_states, probas = self.get_next_states(self.current_state,action)
         choice = random.choices(next_states,probas)
