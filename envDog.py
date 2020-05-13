@@ -48,7 +48,7 @@ class EnvDog(gym.Env):
                 if( not(val == None)):
                     if(not (action in actionsReturn)):
                         actionsReturn.append(action)
-        print(actionsReturn)
+        #print(actionsReturn)
         return actionsReturn
 
 

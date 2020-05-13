@@ -10,22 +10,27 @@ class AgentRandom():
 
     def run(self, env):
         #self.model.reset()
-        self.loop(env)
+        episodios = []
+        for i in range(500):
+            state = random.choice(env.states)
+            #print(state)
+            env.reset(state)
+            episodio = self.loop(env)
+            episodios.append(episodio)
+        print(episodios)
 
     def loop(self, env):
         print("Agente random...")
-        #obs = env.reset()
-        #env.render()
-        episodios = []
-        done = False
+        episodio = []
+        done = env.end()
         while not done:  
             initialState = env.current_state
             actions = env.posibleActions()
             action = random.choice(actions)
             current_state,reward = env.step(action)
-            episodio = (initialState,action,current_state,reward)
-            episodios.append(episodio)
+            subEpisodio = (initialState,action,current_state,reward)
+            episodio.append(subEpisodio)
 
             done = env.end()
-        print('episodios: ',episodios)
+        return episodio
 

@@ -8,7 +8,7 @@ from agenteRandom import AgentRandom
 
 def main():
     env = EnvDog()
-    env.reset('rutina')
+    #env.reset('rutina')
     agente = AgentRandom()
     agente.run(env)
     #random de acciones de ambiente
