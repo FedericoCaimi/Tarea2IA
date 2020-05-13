@@ -1,4 +1,5 @@
 import random
+import numpy as np
 from abc import ABC, abstractmethod
 
 #DO NOT CHANGE THIS CLASS: EXTEND IT WITH YOUR OWN
@@ -17,7 +18,12 @@ class AgentRandom():
             env.reset(state)
             episodio = self.loop(env)
             episodios.append(episodio)
-        print(episodios)
+        #print(episodios)
+
+        episodios10 = self.episodiosPorCantidad(episodios,10)
+        print('episodios10: ',episodios10)
+
+        self.MDPMonteCarlo(episodios10,env)
 
     def loop(self, env):
         print("Agente random...")
@@ -33,4 +39,24 @@ class AgentRandom():
 
             done = env.end()
         return episodio
+    
+    def MDPMonteCarlo(self,episodios,env):
+        nodos = list(set(episodios))
+        print('nodos: ',nodos)
+        for n in nodos:
+            s1 = n[0]
+            a = n[1]
+            s2 = n[2]
+            r = n[3]
+            #for s in env.states:
+                #cantidad = episodios.count((s1,a,s,))
+                #print(cantidad)
+                    
 
+    def episodiosPorCantidad(self,episodios,cantidad):
+        lista = []
+        for i in range(cantidad):
+            episodio = episodios.pop()
+            for sus in episodio:
+                lista.append(sus)
+        return lista
