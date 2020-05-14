@@ -18,8 +18,8 @@ class Agent():
             actions = env.posibleActions()
             action = self.policy.action(actions, initialState)
             current_state,reward = env.step(action)
-            total_reward += reward
+            total_reward = total_reward + reward
             subEpisode = (initialState,action,current_state,reward)
             episode.append(subEpisode)
             done = env.end()
-        return episode, reward
+        return episode, total_reward

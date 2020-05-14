@@ -3,7 +3,7 @@ import numpy as np
 from .policy import Policy
 from Models.model import Model
 
-class PolicyIteration(Policy):
+class ValueIteration(Policy):
 
     def __init__(self, model):
         super().__init__()
@@ -14,13 +14,9 @@ class PolicyIteration(Policy):
             self.V[s] = 0
 
         #hardcodeado
-        self.policy = dict()
-        for s in self.states:
-            if(not self.model.is_final_state(s)):
-                self.policy[s] = model.posible_actions(s)[0]
         #borro el ultimo estado porque genera problemas al no tener acciones posibles
         self.states.remove('fin_robo')
-        self.policy_iteration(self.policy, 0.05, self.V)
+        self.policy = self.value_iteration(0.001, 0.99, self.V)
 
     def action(self, actions, state):
         return self.policy[state]
@@ -36,31 +32,18 @@ class PolicyIteration(Policy):
         R = state_probability_reward[2]
         return T * (R + gamma * V[next_s])
 
-    def policy_evaluation(self, policy, theta, V):
+    def value_iteration(self, theta, gamma, V):
         done = False
+        policy = dict()
         while not done:
             delta = 0
             for s in self.states:
-                V_old = V[s]
-                V[s] = self.Q(s, policy[s], V)
-                delta = max(delta, abs(V_old - V[s]))
-            done = delta < theta
-        return V
-
-    def policy_iteration(self, policy, theta, V):
-        V = self.policy_evaluation(policy, theta, V)
-        done = False
-        while not done:
-            stable = True
-            for s in self.states:
-                action_old = policy[s]
+                old = V[s]
                 actions = self.model.posible_actions(s)
                 all_Qs = [self.Q(s, a , V) for a in actions]
+                V[s] = np.max(all_Qs)
                 policy[s] = actions[np.argmax(all_Qs)]
-                if(action_old != policy[s]):
-                    stable = False
-            if not stable: 
-                V = self.policy_evaluation(policy, theta, V)
-            else:
-                done = True
-        return policy, V
+                delta = max(delta, abs(old - V[s]))
+            done = delta < theta
+        return policy
+    
