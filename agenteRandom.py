@@ -1,5 +1,6 @@
 import random
 import numpy as np
+from graphviz import Digraph
 from abc import ABC, abstractmethod
 
 #DO NOT CHANGE THIS CLASS: EXTEND IT WITH YOUR OWN
@@ -12,7 +13,7 @@ class AgentRandom():
     def run(self, env):
         #self.model.reset()
         episodios = []
-        for i in range(500):
+        for i in range(800):
             state = random.choice(env.states)
             #print(state)
             env.reset(state)
@@ -21,12 +22,30 @@ class AgentRandom():
         #print(episodios)
 
         episodios10 = self.episodiosPorCantidad(episodios,10)
-        print('episodios10: ',episodios10)
+        T_R = dict()
+        T_R = self.MDPMonteCarlo(episodios10,env)
+        self.render(T_R,"graf 10")
 
-        self.MDPMonteCarlo(episodios10,env)
+        episodios100 = self.episodiosPorCantidad(episodios,100)
+        T_R = dict()
+        T_R = self.MDPMonteCarlo(episodios10,env)
+        self.render(T_R,"graf 100")
+
+        episodios800 = self.episodiosPorCantidad(episodios,800)
+        T_R = dict()
+        T_R = self.MDPMonteCarlo(episodios800,env)
+        self.render(T_R,"graf 800")
+
+    def render(self,T_R,name):
+        g = Digraph(filename=name)
+        for (s1,a,s2), (T,R) in T_R.items():
+            g.edge(s1,s2,str(a) + ", "+str(T) + ", "+str(R))
+        g.view()
+        print('----------------------')
+        print(T_R)
+        print('----------------------')
 
     def loop(self, env):
-        print("Agente random...")
         episodio = []
         done = env.end()
         while not done:  
@@ -42,21 +61,30 @@ class AgentRandom():
     
     def MDPMonteCarlo(self,episodios,env):
         nodos = list(set(episodios))
-        print('nodos: ',nodos)
+        T_R = dict()
         for n in nodos:
-            s1 = n[0]
+            s0 = n[0]
             a = n[1]
-            s2 = n[2]
-            r = n[3]
-            #for s in env.states:
-                #cantidad = episodios.count((s1,a,s,))
-                #print(cantidad)
+            s1 = n[2]
+            count_s_a_s = 0
+            count_s_a = 0
+            reward = 0
+            for e in episodios:
+                if(e[0] == s0 and e[1] == a):
+                    count_s_a += 1
+                    if(e[2] == s1):
+                        reward = reward + e[3]
+                        count_s_a_s += 1
+            T = count_s_a_s / count_s_a
+            R = reward / count_s_a_s
+            T_R[(s0,a,s1)] = (T,R)
+        return T_R
                     
 
     def episodiosPorCantidad(self,episodios,cantidad):
         lista = []
         for i in range(cantidad):
-            episodio = episodios.pop()
+            episodio = episodios[i]
             for sus in episodio:
                 lista.append(sus)
         return lista
