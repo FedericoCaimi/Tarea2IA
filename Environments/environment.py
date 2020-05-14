@@ -4,9 +4,9 @@ import random
 from gym import error, spaces, utils
 from Models.dogModel import DogModel
 
-class EnvDog(gym.Env):
-    def __init__(self):
-        self.model = DogModel()
+class Environment(gym.Env):
+    def __init__(self, model):
+        self.model = model
         self.current_state = ''
 
     def end(self):
