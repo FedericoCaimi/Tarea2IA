@@ -3,7 +3,7 @@ from .model import Model
 class DogModel(Model):
     def __init__(self):
         actions = ['buscar','perseguir','atrapar','festejar','jugar']
-        states = ['rutina','perseguir_lejos','perseguir_cerca','aptrapado','despistado','fin_robo']
+        states = ['rutina','perseguir_lejos','perseguir_cerca','atrapado','despistado','fin_robo']
         T_R = dict()
         T_R[('rutina','jugar','rutina')] = (99/100,1)
         T_R[('rutina','buscar','rutina')] = (2/5,-1)

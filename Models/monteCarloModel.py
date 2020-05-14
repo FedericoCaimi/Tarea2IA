@@ -3,7 +3,7 @@ from .model import Model
 class MonteCarloModel(Model):
     def __init__(self, episodes):
         actions = ['buscar','perseguir','atrapar','festejar','jugar']
-        states = ['rutina','perseguir_lejos','perseguir_cerca','aptrapado','despistado','fin_robo']
+        states = ['rutina','perseguir_lejos','perseguir_cerca','atrapado','despistado','fin_robo']
         T_R = self.__monte_carlo_model_estimation(episodes)
         super().__init__(actions, states, T_R)
 

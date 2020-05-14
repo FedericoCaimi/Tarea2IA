@@ -32,6 +32,16 @@ class Model(ABC):
         next_state, reward = choice[0][0], choice[0][1]
         return next_state, reward
 
+    #returns [(state, prob, reward)]
+    def posible_states(self, state, action):
+        self.check_action(action)
+        _return = []
+        for next_state in self.states:
+            val = self.T_R.get((state,action,next_state))
+            if(not(val == None)):
+                _return.append((next_state, val[0], val[1]))
+        return _return
+
     def is_final_state(self, state):
         raise NotImplementedError("Abstract method cannot be called")
 
@@ -47,3 +57,6 @@ class Model(ABC):
         print('----------------------')
         print(self.T_R)
         print('----------------------')
+
+    def get_all_states(self):
+        return list(self.states)

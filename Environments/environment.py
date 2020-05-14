@@ -22,6 +22,9 @@ class Environment(gym.Env):
     def reset(self,initial_state):
         self.current_state = initial_state
         return self.current_state
+    
+    def current_state(self):
+        return self.current_state
 
     #def is_game_over(self):
 
