@@ -53,7 +53,7 @@ class Model(ABC):
         g = Digraph(filename=name)
         for (s1,a,s2), (T,R) in self.T_R.items():
            g.edge(s1,s2,str(a) + ", "+str(T) + ", "+str(R))
-        #g.view()
+        g.view()
         print('----------------------')
         print(self.T_R)
         print('----------------------')

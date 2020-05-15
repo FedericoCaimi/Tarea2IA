@@ -1,5 +1,6 @@
 import time
 import traceback
+import random
 
 from Environments.environment import Environment
 from Agents.policy_based_agent import Agent
@@ -16,27 +17,24 @@ def main():
 
     #2
     random_agent = Agent(RandomPolicy())
-    episode, reward = random_agent.run(env, 'rutina')
-    print('Agente Random')
-    print('Episodio:', episode)
-    print('Recompensa:', reward)
-    print('--------------------------------')
 
     #3
-    episodes_10 = generate_episodes(10, random_agent, env, 'rutina')
-    episodes_100 = generate_episodes(100, random_agent, env, 'rutina')
-    episodes_500 = generate_episodes(500, random_agent, env, 'rutina')
-
+    episodes_10 = generate_episodes(10, random_agent, env)
+    episodes_100 = generate_episodes(100, random_agent, env)
+    episodes_500 = generate_episodes(500, random_agent, env)
+    episodes_1000 = generate_episodes(1000, random_agent, env)
     #render modelo original
     #dog_model.render('DogModel')
     
     #render modelos estimados por montecarlo
     MDPMonteCarlo = MonteCarloModel(episodes_10)
-    #MDPMonteCarlo.render('MC10')
+    MDPMonteCarlo.render('MC10')
     MDPMonteCarlo = MonteCarloModel(episodes_100)
-    #MDPMonteCarlo.render('MC100')
+    MDPMonteCarlo.render('MC100')
     MDPMonteCarlo = MonteCarloModel(episodes_500)
-    #MDPMonteCarlo.render('MC500')
+    MDPMonteCarlo.render('MC500')
+    MDPMonteCarlo = MonteCarloModel(episodes_1000)
+    MDPMonteCarlo.render('MC1000')
 
     #4
     policy_it = PolicyIteration(MDPMonteCarlo)
@@ -63,10 +61,11 @@ def main():
     print('Recompensa media policy iteration:', r_policy_it)
     print('Recompensa media value iteration:', r_value_it)
 
-def generate_episodes(episodes_quantity, agent, environment, initial_state):
+def generate_episodes(episodes_quantity, agent, environment):
+    states = ['rutina','perseguir_lejos','perseguir_cerca','atrapado','despistado','fin_robo']
     episodes = []
     for i in range(episodes_quantity):
-        e, r = agent.run(environment, initial_state)
+        e, r = agent.run(environment, random.choice(states))
         episodes.append(e)
     return episodes
 

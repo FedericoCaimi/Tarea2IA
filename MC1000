@@ -1,0 +1,16 @@
+digraph {
+	despistado -> perseguir_lejos [label="buscar, 0.48427672955974843, 0.0"]
+	perseguir_lejos -> despistado [label="atrapar, 0.9013157894736842, -10.0"]
+	despistado -> fin_robo [label="buscar, 0.37735849056603776, -10.0"]
+	atrapado -> fin_robo [label="festejar, 1.0, 20.0"]
+	perseguir_lejos -> perseguir_cerca [label="perseguir, 0.31462585034013607, -1.0"]
+	perseguir_cerca -> despistado [label="atrapar, 0.33062330623306235, -10.0"]
+	despistado -> despistado [label="buscar, 0.13836477987421383, -2.0"]
+	rutina -> perseguir_lejos [label="buscar, 0.5763888888888888, 0.0"]
+	perseguir_lejos -> perseguir_lejos [label="perseguir, 0.685374149659864, -1.0"]
+	perseguir_lejos -> atrapado [label="atrapar, 0.09868421052631579, 0.0"]
+	perseguir_cerca -> atrapado [label="atrapar, 0.6693766937669376, 0.0"]
+	rutina -> rutina [label="jugar, 0.9863945578231292, 1.0"]
+	rutina -> rutina [label="buscar, 0.4236111111111111, -1.0"]
+	rutina -> fin_robo [label="jugar, 0.013605442176870748, -500.0"]
+}
