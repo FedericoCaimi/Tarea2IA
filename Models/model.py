@@ -54,9 +54,6 @@ class Model(ABC):
         for (s1,a,s2), (T,R) in self.T_R.items():
            g.edge(s1,s2,str(a) + ", "+str(T) + ", "+str(R))
         g.view()
-        print('----------------------')
-        print(self.T_R)
-        print('----------------------')
 
     def get_all_states(self):
         return list(self.states)

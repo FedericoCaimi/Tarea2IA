@@ -24,7 +24,7 @@ def main():
     episodes_500 = generate_episodes(500, random_agent, env)
     episodes_1000 = generate_episodes(1000, random_agent, env)
     #render modelo original
-    #dog_model.render('DogModel')
+    dog_model.render('DogModel')
     
     #render modelos estimados por montecarlo
     MDPMonteCarlo = MonteCarloModel(episodes_10)
@@ -37,8 +37,25 @@ def main():
     MDPMonteCarlo.render('MC1000')
 
     #4
+    print('--------------------------------')
     policy_it = PolicyIteration(MDPMonteCarlo)
+    print('Policy iteration con Montecarlo: ',str(policy_it))
+    print('--------------------------------')
+
+    print('--------------------------------')
     policy_value_it = ValueIteration(MDPMonteCarlo)
+    print('Policy value iteration con Montecarlo: ',str(policy_value_it))
+    print('--------------------------------')
+
+    print('--------------------------------')
+    policy_it_DogM = PolicyIteration(dog_model)
+    print('Policy iteration con MDP real: ',str(policy_it_DogM))
+    print('--------------------------------')
+
+    print('--------------------------------')
+    policy_value_it_DogM = ValueIteration(dog_model)
+    print('Policy value iteration con MDP real: ',str(policy_value_it_DogM))
+    print('--------------------------------')
 
     #5
     improved_agent = Agent(policy_it)
